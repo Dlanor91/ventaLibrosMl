@@ -1,9 +1,7 @@
 package gm.ventas.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import gm.ventas.model.enums.Estados;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -40,12 +38,13 @@ public class VentaEbay extends BaseEntity {
     @Column(name = "fecha_venta", nullable = false)
     private LocalDateTime fechaVenta;
 
-    @NotNull
-    @Column(nullable = false)
-    private Boolean procesada = false;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado_venta", nullable = false)
+    private Estados estadoVenta;
 
     @PrePersist
     public void prePersist() {
         this.fechaVenta = LocalDateTime.now();
+        this.estadoVenta = Estados.EN_PROCESO;
     }
 }
